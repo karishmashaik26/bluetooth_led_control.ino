@@ -46,9 +46,88 @@ This Arduino project lets you control multiple LEDs via Bluetooth using an Andro
 
 ---
 
-## 📁 Project Files
+## 📁 CODE
 
-- `code/bluetooth_led_control.ino` – Main Arduino sketch
+#include <Wire.h>
+#include <SoftwareSerial.h>
+
+#define TxD 3
+#define RxD 2
+
+#define LED1 13
+#define LED2 12
+#define LED3 11
+#define LED4 10
+#define LED5 9
+#define LED6 8
+
+SoftwareSerial bluetoothSerial(TxD, RxD);
+char c;
+
+void setup() {
+  pinMode(LED1, OUTPUT);
+  pinMode(LED2, OUTPUT);
+  pinMode(LED3, OUTPUT);
+  pinMode(LED4, OUTPUT);
+  pinMode(LED5, OUTPUT);
+  pinMode(LED6, OUTPUT);
+  
+  bluetoothSerial.begin(9600);
+  Serial.begin(9600);
+}
+
+void loop() {
+  if (bluetoothSerial.available() > 0) {
+    c = bluetoothSerial.read();
+  }
+
+  Serial.print(c);
+
+  if (c == 'F' || c == 'B') {
+    digitalWrite(LED1, HIGH);
+    digitalWrite(LED2, HIGH);
+  }
+
+  if (c == 'L') {
+    digitalWrite(LED1, HIGH);
+    digitalWrite(LED2, LOW);
+  }
+
+  if (c == 'R') {
+    digitalWrite(LED1, LOW);
+    digitalWrite(LED2, HIGH);
+  }
+
+  if (c == 'H') {
+    digitalWrite(LED3, HIGH);
+    digitalWrite(LED4, HIGH);
+  }
+
+  if (c == 'K') {
+    digitalWrite(LED3, LOW);
+    digitalWrite(LED4, LOW);
+  }
+
+  if (c == 'M') {
+    digitalWrite(LED5, HIGH);
+    digitalWrite(LED6, HIGH);
+  }
+
+  if (c == 'N') {
+    digitalWrite(LED5, LOW);
+    digitalWrite(LED6, LOW);
+  }
+
+  if (c == 'S') {
+    digitalWrite(LED1, LOW);
+    digitalWrite(LED2, LOW);
+    digitalWrite(LED3, LOW);
+    digitalWrite(LED4, LOW);
+    digitalWrite(LED5, LOW);
+    digitalWrite(LED6, LOW);
+  }
+}
+
 
 ---
 
